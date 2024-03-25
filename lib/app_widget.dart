@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kosmicv2/splash_page.dart';
-//import 'splash_page.dart';
+import 'package:kosmicv2/login_page.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
@@ -17,6 +17,7 @@ class AppWidget extends StatelessWidget {
       routes: {
         //Adicionar rotas dentro do app
         '/': (context) => const SplashPage(),
+        '/home': (context) => const LoginPage(),
       },
     );
   }

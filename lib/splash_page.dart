@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:kosmicv2/login_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -12,21 +15,28 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPage extends State<SplashPage> {
   bool _firebaseInitialized = false;
-  /*
-  @override
-  void initState() {
-    super.initState();
-
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(context, '/login');
-    });
-  }*/
 
   @override
   void initState() {
     super.initState();
     _initializeFirebase();
+
+    Future.delayed(const Duration(seconds: 3), () {
+      //Navigator.pushReplacementNamed(context, '/login');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(),
+        ),
+      );
+    });
   }
+  /*
+  @override
+  void initState() {
+    super.initState();
+    _initializeFirebase();
+  }*/
 
   Future<void> _initializeFirebase() async {
     try {
@@ -59,7 +69,12 @@ class _SplashPage extends State<SplashPage> {
       return Scaffold(
         body: GestureDetector(
           onTap: () {
-            //Navigator.pushReplacementNamed(context, '/');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoginPage(),
+              ),
+            );
           },
           child: Stack(
             children: [
@@ -95,6 +110,21 @@ class _SplashPage extends State<SplashPage> {
                         image: DecorationImage(
                           image: AssetImage(
                             'lib/assets/images/splash/logo.png',
+                          ),
+                        ),
+                      ),
+                    ),
+                    //adicionando um circulo mais fino atras do Ellipse.png
+                    Positioned(
+                      bottom: 20,
+                      child: Container(
+                        width: 280,
+                        height: 280,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 1,
                           ),
                         ),
                       ),

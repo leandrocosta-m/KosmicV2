@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Firebase Test',
+      //title: 'Flutter Firebase Test',
       home: SplashPage(),
     );
   }
