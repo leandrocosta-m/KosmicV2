@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kosmicv2/recovery/forgot_password.dart';
 import 'package:kosmicv2/splash_page.dart';
 import 'package:kosmicv2/login_page.dart';
 
 class AppWidget extends StatelessWidget {
-  const AppWidget({super.key});
+  const AppWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,9 @@ class AppWidget extends StatelessWidget {
       routes: {
         //Adicionar rotas dentro do app
         '/': (context) => const SplashPage(),
-        '/home': (context) => const LoginPage(),
+        '/login': (context) => const LoginPage(),
+        '/login_pass': (context) => const ForgotPasswordPage(),
+        //'home' : (context) =>
       },
     );
   }
