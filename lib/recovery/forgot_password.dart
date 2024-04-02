@@ -1,13 +1,9 @@
-//import 'dart:math';
-
-// ignore_for_file: avoid_print, use_build_context_synchronously, library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:kosmicv2/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({super.key});
+  const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
@@ -15,7 +11,7 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _emailController = TextEditingController();
-
+/*
   Future<void> _resetPassword(BuildContext context) async {
     try {
       final auth = FirebaseAuth.instance;
@@ -27,26 +23,66 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           content: Text('Email sent successfully!'),
         ),
       );
-    } catch (e) {
-      print("Error: $e");
-      String message = 'Error resetting password';
-      if (e is FirebaseAuthException) {
-        switch (e.code) {
-          case 'user-not-found':
-            message = 'Usuário não encontrado! Tente novamente mais tarde.';
-            break;
+    } on FirebaseAuthException catch (e) {
+      String message = 'Erro ao redefinir senha';
+      switch (e.code) {
+        case 'user-not-found':
+          message = 'Usuário não encontrado! Tente novamente mais tarde.';
+          break;
 
-          case 'too-many-request':
-            message =
-                'Muitas tentativas de redefinição de senha. Tente novamente mais tarde.';
-            break;
+        case 'too-many-requests':
+          message =
+              'Muitas tentativas de redefinição de senha. Tente novamente mais tarde.';
+          break;
 
-          default:
-            message = 'Erro Desconhecido. Tente novamente mais tarde.';
-            break;
-        }
-      } else {
-        print('Unexpected error: $e');
+        default:
+          message = 'Erro Desconhecido. Tente novamente mais tarde.';
+          break;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+        ),
+      );
+    }
+  }*/
+
+  Future<void> _resetPassword(BuildContext context) async {
+    try {
+      final auth = FirebaseAuth.instance;
+      final email = _emailController.text.trim();
+
+      //verificar se o email esta registrado
+      final userCredential = await auth.fetchSignInMethodsForEmail(email);
+      if (userCredential.isEmpty) {
+        //se o array de metodos de login estiver vazio, o email nao esta registrado
+        throw FirebaseException(
+          code: 'user-not-found',
+          message: 'Usuário não encontrado! Tente novamente mais tarde!',
+          plugin: '',
+        );
+      }
+
+      //Se o email estiver registrado, enviar o email de redefinição de senha
+      await auth.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email enviado!'),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      String message = 'Erro ao redefinir senha!';
+      switch (e.code) {
+        case 'user-not-found':
+          message = 'Usuário não encontrado! Tente novamente mais tarde.';
+          break;
+        case 'too-many-requests':
+          message =
+              'Muitas tentativas de redefinição de senha. Tente novamente mais tarde.';
+          break;
+        default:
+          message = 'Erro Desconhecido. Tente novamente mais tarde.';
+          break;
       }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -88,7 +124,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     ),
                   );
                 },
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
@@ -162,10 +201,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   onPressed: () async {
                     try {
                       await _resetPassword(context);
-                    } on FirebaseAuthException catch (e) {
+                    } catch (e) {
                       String message = 'Erro ao redefinir senha.';
-                      switch (e.code) {
-                        //tratar mensagem
+                      if (e is FirebaseAuthException) {
+                        switch (e.code) {
+                          case 'user-not-found':
+                            message = 'Usuário não encontrado.';
+                            break;
+                          case 'invalid-email':
+                            message = 'Email inválido.';
+                            break;
+                          case 'weak-password':
+                            message = 'Senha fraca.';
+                            break;
+                          default:
+                            message = 'Erro desconhecido.';
+                        }
                       }
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
