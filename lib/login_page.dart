@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kosmicv2/recovery/forgot_password.dart';
+import 'package:kosmicv2/signin/sigin_page.dart';
+//import 'package:twitter_login/twitter_login.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -301,25 +304,31 @@ class LoginPageState extends State<LoginPage> {
           Positioned(
             left: 80,
             bottom: 90,
-            child: Container(
-              width: 50,
-              height: 50,
-              decoration: const BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black,
-                    blurRadius: 14.0,
-                  ),
-                ],
-                shape: BoxShape.circle,
-                color: Color(0xff111010),
-              ),
-              child: const Center(
-                child: Image(
-                  width: 40,
-                  height: 40,
-                  image: AssetImage(
-                    'lib/assets/images/login/x.png',
+            child: GestureDetector(
+              onTap: () {
+                //adicionar o direcionamento para o twitter
+                //_loginWithTwitter();
+              },
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 14.0,
+                    ),
+                  ],
+                  shape: BoxShape.circle,
+                  color: Color(0xff111010),
+                ),
+                child: const Center(
+                  child: Image(
+                    width: 40,
+                    height: 40,
+                    image: AssetImage(
+                      'lib/assets/images/login/x.png',
+                    ),
                   ),
                 ),
               ),
@@ -381,6 +390,7 @@ class LoginPageState extends State<LoginPage> {
             width: 1,
           ),
           //texto 'dont have an account'
+          /*
           Positioned(
             left: 80,
             bottom: 40,
@@ -405,12 +415,77 @@ class LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
+          ),*/
+          Positioned(
+            left: 80,
+            bottom: 40,
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  const TextSpan(
+                    text: "Don't have an account? ",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Sign In',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF11DCE8),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignIn(),
+                          ),
+                        );
+                      },
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
+  //metodo para login com o twitter
+  /*
+  Future<void> _loginWithTwitter() async {
+    final twitterLogin = TwitterLogin(
+      apiKey: 'YOUR_API_KEY',
+      apiSecretKey: 'YOUR_API_SECRET_KEY',
+      redirectURI: 'YOUR_REDIRECT_URI',
+    );
+
+    final authResult = await twitterLogin.login();
+
+    switch (authResult.status) {
+      case TwitterLoginStatus.loggedIn:
+        // Autenticação bem-sucedida, obtenha as credenciais do usuário
+        final accessToken = authResult.authToken!;
+        final accessTokenSecret = authResult.authTokenSecret!;
+        final userId = authResult.userID!;
+        final username = authResult.username!;
+        // Use essas credenciais para autenticar com seu backend ou realizar outras operações
+
+        break;
+      case TwitterLoginStatus.cancelledByUser:
+        // O usuário cancelou o login
+        break;
+      case TwitterLoginStatus.error:
+        // Ocorreu um erro durante o login
+        print('Erro de login com Twitter: ${authResult.errorMessage}');
+        break;
+    }
+  }
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(

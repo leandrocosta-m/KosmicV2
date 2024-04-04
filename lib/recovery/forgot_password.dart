@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:kosmicv2/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,41 +13,6 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _emailController = TextEditingController();
-/*
-  Future<void> _resetPassword(BuildContext context) async {
-    try {
-      final auth = FirebaseAuth.instance;
-      await auth.sendPasswordResetEmail(
-        email: _emailController.text.trim(),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Email sent successfully!'),
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      String message = 'Erro ao redefinir senha';
-      switch (e.code) {
-        case 'user-not-found':
-          message = 'Usuário não encontrado! Tente novamente mais tarde.';
-          break;
-
-        case 'too-many-requests':
-          message =
-              'Muitas tentativas de redefinição de senha. Tente novamente mais tarde.';
-          break;
-
-        default:
-          message = 'Erro Desconhecido. Tente novamente mais tarde.';
-          break;
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-        ),
-      );
-    }
-  }*/
 
   Future<void> _resetPassword(BuildContext context) async {
     try {
