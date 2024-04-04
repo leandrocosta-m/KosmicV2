@@ -1,45 +1,37 @@
 {
   "project_info": {
-    "project_number": "38097637181",
-    "project_id": "conectfirebase-c44f8",
-    "storage_bucket": "conectfirebase-c44f8.appspot.com"
+    "project_number": "1029444390392",
+    "firebase_url": "https://kosmic-29d5b-default-rtdb.firebaseio.com",
+    "project_id": "kosmic-29d5b",
+    "storage_bucket": "kosmic-29d5b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:38097637181:android:821368466b70b295beff54",
+        "mobilesdk_app_id": "1:1029444390392:android:3d6e096e7a69b9b3a3da0d",
         "android_client_info": {
-          "package_name": "com.example.conexaoteste"
+          "package_name": "com.kosmic.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1029444390392-vp4e621qolubc55s1lb79snoff94kjvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDyhDEGzk3jyCRJ6BO5NyD32fjZYZGQVnE"
+          "current_key": "AIzaSyCx4uh7ArOKRSKSJJjaInOFjVK3_JzizRc"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:38097637181:android:ea5141547ceeabcebeff54",
-        "android_client_info": {
-          "package_name": "com.example.kosmicv2"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDyhDEGzk3jyCRJ6BO5NyD32fjZYZGQVnE"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029444390392-vp4e621qolubc55s1lb79snoff94kjvr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

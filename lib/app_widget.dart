@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kosmicv2/recovery/forgot_password.dart';
+import 'package:kosmicv2/signin/sigin_page.dart';
 import 'package:kosmicv2/splash_page.dart';
 import 'package:kosmicv2/login_page.dart';
 
@@ -20,7 +21,7 @@ class AppWidget extends StatelessWidget {
         '/': (context) => const SplashPage(),
         '/login': (context) => const LoginPage(),
         '/login_pass': (context) => const ForgotPasswordPage(),
-        //'home' : (context) =>
+        '/SignIn': (context) => const SignIn(),
       },
     );
   }
