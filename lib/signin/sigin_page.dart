@@ -1,8 +1,9 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, library_private_types_in_public_api, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:kosmicv2/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -20,13 +21,17 @@ class _SignInState extends State<SignIn> {
   Future<void> registerUser(String name, String email, String password) async {
     try {
       final FirebaseAuth auth = FirebaseAuth.instance;
-      await auth.createUserWithEmailAndPassword(
+      final UserCredential userCredential =
+          await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
+      await saveUserData(userCredential.user!.uid, name, email, password);
+
       // Handle successful registration (e.g., navigate to a different screen)
       print('Usuário cadastrado com sucesso!');
+      Navigator.pop(context); //retorna para a tela de login
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('A senha precisa ser mais forte.');
@@ -37,6 +42,25 @@ class _SignInState extends State<SignIn> {
       }
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future<void> saveUserData(
+    String userId,
+    String name,
+    String email,
+    String password,
+  ) async {
+    try {
+      final CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
+      await users.doc(userId).set({
+        'name': name,
+        'email': email,
+        'password': password,
+      });
+    } catch (e) {
+      print('Erro ao salvar os dados');
     }
   }
 
@@ -120,7 +144,7 @@ class _SignInState extends State<SignIn> {
                           borderRadius: BorderRadius.circular(30.0),
                           borderSide: const BorderSide(color: Colors.white),
                         ),
-                        errorStyle: TextStyle(
+                        errorStyle: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
@@ -154,7 +178,7 @@ class _SignInState extends State<SignIn> {
                           borderRadius: BorderRadius.circular(30.0),
                           borderSide: const BorderSide(color: Colors.white),
                         ),
-                        errorStyle: TextStyle(
+                        errorStyle: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
@@ -195,7 +219,7 @@ class _SignInState extends State<SignIn> {
                           borderRadius: BorderRadius.circular(30.0),
                           borderSide: const BorderSide(color: Colors.white),
                         ),
-                        errorStyle: TextStyle(
+                        errorStyle: const TextStyle(
                           color: Colors.white,
                         ),
                       ),

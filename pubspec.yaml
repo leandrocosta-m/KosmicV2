@@ -16,6 +16,7 @@ dependencies:
   firebase_database: ^10.0.16
   firebase_core_web: ^2.2.2
   twitter_login: ^4.4.2
+  firebase_app_check: ^0.1.1
 
 dev_dependencies:
   flutter_test:
