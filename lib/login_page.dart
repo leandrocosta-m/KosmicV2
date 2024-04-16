@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kosmicv2/recovery/forgot_password.dart';
 import 'package:kosmicv2/signin/sigin_page.dart';
-//import 'package:twitter_login/twitter_login.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,15 +12,38 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  String email = 'admin';
-  String senha = '123';
+  String email = '';
+  String senha = '';
   double forgotPasswordOffset = 10.0;
 
-  Future<void> _handleLogin() async {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
+  String? emailError;
+  String? senhaError;
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Future<void> _handleLogin() async {
     email = emailController.text;
+    senha = passwordController.text;
+
+    //verifica se os campos estao vazios
+    if (email.isEmpty) {
+      setState(() {
+        emailError = 'Email invalido';
+      });
+      return;
+    }
+
+    //verifica se o campo senha esta corretamente preenchido
+    if (senha.isEmpty) {
+      setState(() {
+        senhaError = 'Informe uma senha valida';
+      });
+      return;
+    }
+
     final String password = passwordController.text;
 
     try {
@@ -100,95 +122,115 @@ class LoginPageState extends State<LoginPage> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(
-                      height: 60,
-                    ),
-                    TextField(
-                      onChanged: (text) {
-                        setState(() {
-                          email = text;
-                        });
-                      },
-                      keyboardType: TextInputType.emailAddress,
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        fillColor: Colors.transparent,
-                        filled: true,
-                        labelStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            30.0,
-                          ),
-                          borderSide: const BorderSide(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextField(
-                      onChanged: (text) {
-                        setState(() {
-                          senha = text;
-                        });
-                      },
-                      obscureText: true,
-                      keyboardType: TextInputType.text,
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Senha',
-                        fillColor: Colors.transparent,
-                        filled: true,
-                        labelStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            30.0,
-                          ),
-                          borderSide: const BorderSide(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: forgotPasswordOffset,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                child: Form(
+                  key: _formKey,
+                  child: Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ForgotPasswordPage(),
-                                ),
-                              );
+                          const SizedBox(
+                            height: 60,
+                          ),
+                          TextFormField(
+                            onChanged: (text) {
+                              setState(() {
+                                email = text;
+                              });
                             },
-                            child: const Text(
-                              'Forgot Password?',
-                              style: TextStyle(
-                                color: Color(0xFF11DCE8),
+                            keyboardType: TextInputType.emailAddress,
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              fillColor: Colors.transparent,
+                              filled: true,
+                              labelStyle: const TextStyle(
+                                color: Colors.white,
                               ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                  30.0,
+                                ),
+                                borderSide:
+                                    const BorderSide(color: Colors.white),
+                              ),
+                              errorText: emailError,
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor  insira um email válido';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            obscureText: true,
+                            keyboardType: TextInputType.text,
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: 'Senha',
+                              fillColor: Colors.transparent,
+                              filled: true,
+                              labelStyle: const TextStyle(
+                                color: Colors.white,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                  30.0,
+                                ),
+                                borderSide:
+                                    const BorderSide(color: Colors.white),
+                              ),
+                              errorText: senhaError,
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor, insira sua senha!';
+                              } else if (value.length < 8) {
+                                return 'Senha invalida';
+                              }
+                              return null;
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: forgotPasswordOffset,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ForgotPasswordPage(),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    'Forgot Password?',
+                                    style: TextStyle(
+                                      color: Color(0xFF11DCE8),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -240,11 +282,8 @@ class LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   onPressed: () {
-                    _handleLogin();
-                    if (email == 'admin' && senha == '123') {
-                      Navigator.of(context).pushReplacementNamed('/home');
-                    } else {
-                      //mensagem de erro de login
+                    if (_formKey.currentState!.validate()) {
+                      _handleLogin();
                     }
                   },
                   child: const Text(
@@ -389,33 +428,6 @@ class LoginPageState extends State<LoginPage> {
           const SizedBox(
             width: 1,
           ),
-          //texto 'dont have an account'
-          /*
-          Positioned(
-            left: 80,
-            bottom: 40,
-            child: RichText(
-              text: const TextSpan(
-                children: [
-                  TextSpan(
-                    text: "Don't have an account? ",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  TextSpan(
-                    text: 'Sign In',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF11DCE8),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),*/
           Positioned(
             left: 80,
             bottom: 40,
@@ -455,37 +467,6 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  //metodo para login com o twitter
-  /*
-  Future<void> _loginWithTwitter() async {
-    final twitterLogin = TwitterLogin(
-      apiKey: 'YOUR_API_KEY',
-      apiSecretKey: 'YOUR_API_SECRET_KEY',
-      redirectURI: 'YOUR_REDIRECT_URI',
-    );
-
-    final authResult = await twitterLogin.login();
-
-    switch (authResult.status) {
-      case TwitterLoginStatus.loggedIn:
-        // Autenticação bem-sucedida, obtenha as credenciais do usuário
-        final accessToken = authResult.authToken!;
-        final accessTokenSecret = authResult.authTokenSecret!;
-        final userId = authResult.userID!;
-        final username = authResult.username!;
-        // Use essas credenciais para autenticar com seu backend ou realizar outras operações
-
-        break;
-      case TwitterLoginStatus.cancelledByUser:
-        // O usuário cancelou o login
-        break;
-      case TwitterLoginStatus.error:
-        // Ocorreu um erro durante o login
-        print('Erro de login com Twitter: ${authResult.errorMessage}');
-        break;
-    }
-  }
-*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
