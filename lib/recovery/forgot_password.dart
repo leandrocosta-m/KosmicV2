@@ -34,7 +34,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       await auth.sendPasswordResetEmail(email: email);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Email enviado!'),
+          backgroundColor: Colors.transparent,
+          content: Text(
+            'Email enviado!',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
         ),
       );
     } on FirebaseAuthException catch (e) {
@@ -53,7 +59,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(message),
+          backgroundColor: Colors.transparent,
+          content: Text(
+            message,
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
         ),
       );
     }
