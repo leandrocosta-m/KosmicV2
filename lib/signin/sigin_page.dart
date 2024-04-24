@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, library_private_types_in_public_api, use_build_context_synchronously
+// ignore_for_file: avoid_print, library_private_types_in_public_api, use_build_context_synchronously, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:kosmicv2/login_page.dart';
@@ -18,7 +18,12 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
-  Future<void> registerUser(String name, String email, String password) async {
+  Future<void> registerUser(
+    BuildContext context,
+    String name,
+    String email,
+    String password,
+  ) async {
     try {
       final FirebaseAuth auth = FirebaseAuth.instance;
       final UserCredential userCredential =
@@ -29,8 +34,18 @@ class _SignInState extends State<SignIn> {
 
       await saveUserData(userCredential.user!.uid, name, email, password);
 
+      await userCredential.user!.sendEmailVerification();
+
+      //exibir um snackbar se o informando o usuario a verificar o email
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Verifique seu e-mail para confirmar o cadastro'),
+          duration: Duration(seconds: 2), //define a duração do SnackBar
+        ),
+      );
+
       // Handle successful registration (e.g., navigate to a different screen)
-      print('Usuário cadastrado com sucesso!');
+      print('Usuário cadastrado com sucesso!, verifique seu email');
       Navigator.pop(context); //retorna para a tela de login
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -149,7 +164,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                       validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
+                        if (value == null || value.isEmpty) {
                           return 'Por Favor, insira seu nome de usuário';
                         }
                         return null;
@@ -272,7 +287,11 @@ class _SignInState extends State<SignIn> {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
                               registerUser(
-                                  _name.text, _email.text, _password.text);
+                                context,
+                                _name.text,
+                                _email.text,
+                                _password.text,
+                              );
                             }
                           },
                           child: const Text(
