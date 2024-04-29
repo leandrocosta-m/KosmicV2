@@ -24,20 +24,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   Future<void> _resetPassword(BuildContext context) async {
-    print('Iniciando resetPassword');
     final email = _emailController.text.trim();
 
     if (email.isEmpty) {
-      print('email vazio alterando a cor para red');
-
-      Future.delayed(const Duration(seconds: 3));
-
       setState(() {
-        _emailBorderColor = Colors.deepPurple;
+        _emailBorderColor = Color(0xff920f06);
       });
 
-      setState(() {
-        _emailBorderColor = Colors.red;
+      Future.delayed(const Duration(seconds: 3), () {
+        setState(() {
+          _emailBorderColor = Colors.deepPurple;
+        });
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -51,7 +48,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     }
 
     try {
-      print('Email não está vazio, tentando redefinir senha');
       final auth = FirebaseAuth.instance;
 
       // Verificar se o email está registrado
@@ -169,11 +165,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
             ),
           ),
-          Positioned.fill(
-            child: Center(
-              child: Image.asset(
-                'lib/assets/images/splash/logo.png',
-              ),
+          Positioned(
+            top: 100,
+            left: 40,
+            child: Image.asset(
+              'lib/assets/images/splash/logo.png',
+              width: MediaQuery.of(context).size.width * 0.8,
             ),
           ),
           // Camada transparente
