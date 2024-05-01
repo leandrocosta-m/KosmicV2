@@ -18,6 +18,47 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
+  bool _nameError = false;
+  bool _emailError = false;
+  bool _passwordError = false;
+
+  //configuração do campo de nome de usuario
+  void showErrorName() {
+    setState(() {
+      _nameError = true;
+    });
+
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _nameError = false;
+      });
+    });
+  }
+
+  //configuraçã do campo de email
+  void showErrorEmail() {
+    setState(() {
+      _emailError = true;
+    });
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _emailError = false;
+      });
+    });
+  }
+
+  //Configuração do campo de senha
+  void showErrorpassword() {
+    setState(() {
+      _passwordError = true;
+    });
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _passwordError = false;
+      });
+    });
+  }
+
   Future<void> registerUser(
     BuildContext context,
     String name,
@@ -89,8 +130,8 @@ class _SignInState extends State<SignIn> {
           alignment: Alignment.center,
           children: [
             Container(
-              height: 40,
-              width: 40,
+              height: MediaQuery.of(context).size.height, // Altura da tela
+              width: MediaQuery.of(context).size.width, // Largura da tela
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.black.withOpacity(0.3),
@@ -140,9 +181,16 @@ class _SignInState extends State<SignIn> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     //
+                    //logo
+                    SizedBox(height: 50),
+                    Image.asset(
+                      width: 100,
+                      height: 100,
+                      'lib/assets/images/splash/logo.png',
+                    ),
                     // campo de nome de usuario
                     const SizedBox(
-                      height: 180,
+                      height: 80,
                     ),
                     TextFormField(
                       style: const TextStyle(
@@ -157,7 +205,26 @@ class _SignInState extends State<SignIn> {
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
-                          borderSide: const BorderSide(color: Colors.white),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                            width: 2,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide(
+                            color: _nameError
+                                ? Color(0xff920f06)
+                                : Colors.deepPurple,
+                            width: 2,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                            width: 2,
+                          ),
                         ),
                         errorStyle: const TextStyle(
                           color: Colors.white,
@@ -165,7 +232,8 @@ class _SignInState extends State<SignIn> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Por Favor, insira seu nome de usuário';
+                          showErrorName();
+                          //return 'Por Favor, insira seu nome de usuário';
                         }
                         return null;
                       },
@@ -175,6 +243,16 @@ class _SignInState extends State<SignIn> {
                         }
                       },
                     ),
+                    const SizedBox(height: 6),
+                    if (_nameError)
+                      const Text(
+                        'Por Favor, insira seu nome de usuário',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     const SizedBox(height: 20),
                     //
                     //campo de email
@@ -191,7 +269,26 @@ class _SignInState extends State<SignIn> {
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
-                          borderSide: const BorderSide(color: Colors.white),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                            width: 2,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide(
+                            color: _emailError
+                                ? Color(0xff920f06)
+                                : Colors.deepPurple,
+                            width: 2,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide(
+                            color: Colors.white,
+                            width: 2,
+                          ),
                         ),
                         errorStyle: const TextStyle(
                           color: Colors.white,
@@ -199,6 +296,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
+                          showErrorEmail();
                           return 'Por Favor, informe um email válido';
                         }
                         const emailPattern =
@@ -215,6 +313,16 @@ class _SignInState extends State<SignIn> {
                         }
                       },
                     ),
+                    const SizedBox(height: 6),
+                    if (_emailError)
+                      const Text(
+                        'Por favor informe um email válido!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     const SizedBox(height: 20),
                     //campo de senha
                     TextFormField(
@@ -232,7 +340,26 @@ class _SignInState extends State<SignIn> {
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
-                          borderSide: const BorderSide(color: Colors.white),
+                          borderSide: BorderSide(
+                            color: Colors.white,
+                            width: 2,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide(
+                            color: _passwordError
+                                ? Color(0xff920f06)
+                                : Colors.deepPurple,
+                            width: 2,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                            width: 2,
+                          ),
                         ),
                         errorStyle: const TextStyle(
                           color: Colors.white,
@@ -240,9 +367,11 @@ class _SignInState extends State<SignIn> {
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'A senha precisa ter pelo menos 8 caracteres';
+                          showErrorpassword();
+                          return 'Por favor, informe uma senha valida!';
                         }
                         if (value.trim().length < 8) {
+                          showErrorpassword();
                           return 'A senha precisa ter pelo menos 8 caracteres';
                         }
                         // Você pode adicionar aqui verificações para complexidade da senha (maiúsculas, minúsculas, números, símbolos)
@@ -254,6 +383,16 @@ class _SignInState extends State<SignIn> {
                         }
                       },
                     ),
+                    const SizedBox(height: 6),
+                    if (_passwordError)
+                      const Text(
+                        'Por Favor, insira seu nome de usuário',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     //botaõ de cadastro
                     const SizedBox(height: 20.0),
                     Container(
