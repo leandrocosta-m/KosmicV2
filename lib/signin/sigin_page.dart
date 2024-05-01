@@ -130,8 +130,8 @@ class _SignInState extends State<SignIn> {
           alignment: Alignment.center,
           children: [
             Container(
-              height: MediaQuery.of(context).size.height, // Altura da tela
-              width: MediaQuery.of(context).size.width, // Largura da tela
+              height: 40,
+              width: 40,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.black.withOpacity(0.3),
