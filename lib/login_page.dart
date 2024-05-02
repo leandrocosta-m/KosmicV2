@@ -206,6 +206,7 @@ class LoginPageState extends State<LoginPage> {
                                 color: Colors.white,
                                 fontSize: 10,
                               ),
+                              textAlign: TextAlign.center,
                             ),
                           const SizedBox(
                             height: 20,
@@ -262,6 +263,7 @@ class LoginPageState extends State<LoginPage> {
                                     Colors.white, // Change text color to white
                                 fontSize: 10,
                               ),
+                              textAlign: TextAlign.center,
                             ),
                           Padding(
                             padding: EdgeInsets.symmetric(

@@ -163,6 +163,8 @@ class _SignInState extends State<SignIn> {
       ),
       extendBodyBehindAppBar: true,
       body: Container(
+        width: double
+            .infinity, // Define a largura do container como a largura total da tela
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
@@ -171,13 +173,24 @@ class _SignInState extends State<SignIn> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Container(
-          padding: const EdgeInsets.all(30.0),
-          child: Form(
-            key: _formKey,
-            child: Stack(
-              children: [
-                Column(
+        child: Stack(
+          children: [
+            Positioned(
+              top: 200,
+              height: 440,
+              width: 360,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     //
@@ -447,9 +460,9 @@ class _SignInState extends State<SignIn> {
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
