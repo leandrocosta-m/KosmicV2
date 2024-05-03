@@ -18,17 +18,6 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
-  //função de reset de campos
-  void resetErrorColor() {
-    Future.delayed(const Duration(seconds: 3), () {
-      setState(() {
-        _nameError = false;
-        _emailError = false;
-        _passwordError = false;
-      });
-    });
-  }
-
   void showErrorName() {
     setState(() {
       _nameError = true;
@@ -69,8 +58,6 @@ class _SignInState extends State<SignIn> {
         _emailError = false;
       });
     });
-
-    resetErrorColor();
   }
 
   //Configuração do campo de senha
@@ -148,7 +135,6 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    resetErrorColor(); //resetar cores de erro
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
