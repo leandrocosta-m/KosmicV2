@@ -18,12 +18,36 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
+  //função de reset de campos
+  void resetErrorColor() {
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _nameError = false;
+        _emailError = false;
+        _passwordError = false;
+      });
+    });
+  }
+
+  void showErrorName() {
+    setState(() {
+      _nameError = true;
+    });
+
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _nameError = false;
+      });
+    });
+  }
+
+  //Configuração de mensagem de erro se os campos estiverem vazios
   bool _nameError = false;
   bool _emailError = false;
   bool _passwordError = false;
 
   //configuração do campo de nome de usuario
-  void showErrorName() {
+  void showNameError() {
     setState(() {
       _nameError = true;
     });
@@ -45,6 +69,8 @@ class _SignInState extends State<SignIn> {
         _emailError = false;
       });
     });
+
+    resetErrorColor();
   }
 
   //Configuração do campo de senha
@@ -122,6 +148,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    resetErrorColor(); //resetar cores de erro
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -163,8 +190,7 @@ class _SignInState extends State<SignIn> {
       ),
       extendBodyBehindAppBar: true,
       body: Container(
-        width: double
-            .infinity, // Define a largura do container como a largura total da tela
+        width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
@@ -384,7 +410,6 @@ class _SignInState extends State<SignIn> {
                           return 'Por favor, informe uma senha valida!';
                         }
                         if (value.trim().length < 8) {
-                          showErrorpassword();
                           return 'A senha precisa ter pelo menos 8 caracteres';
                         }
                         // Você pode adicionar aqui verificações para complexidade da senha (maiúsculas, minúsculas, números, símbolos)
@@ -399,7 +424,7 @@ class _SignInState extends State<SignIn> {
                     const SizedBox(height: 6),
                     if (_passwordError)
                       const Text(
-                        'Por Favor, insira seu nome de usuário',
+                        'Por Favor, insira sua senha',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 10,
